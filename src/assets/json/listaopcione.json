@@ -1,0 +1,14 @@
+[
+    {
+       "url":"/page/inicio",
+       "nombre":"Inicio",
+       "icon":"insert_drive_file",
+       "admin":false
+    },
+    {
+      "url":"/page/tamizaje",
+      "nombre":"Vista Tamizaje",
+      "icon":"insert_drive_file",
+      "admin":false
+   }
+ ]
