@@ -1,4 +1,3 @@
-import { dataCollection } from './../../_model/dataCollection';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -6,7 +5,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 
 import { TokenUsuario, Usuario } from '../../_model/configuracion/usuario';
-import { Response } from '../../_model/response';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +19,6 @@ export class LogeoService {
     ) { }
 
   login(usuario: Usuario){
-    debugger;
     let urls = `${this.url}/PostLogin`;
 
     return this.http.post<TokenUsuario>(urls, usuario);

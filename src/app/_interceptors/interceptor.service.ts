@@ -20,6 +20,7 @@ export class InterceptorService implements HttpInterceptor {
   ) { }
 
 intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+
     let helper = new JwtHelperService();
     let token =localStorage.getItem(environment.TOKEN_NAME);
     let request = req;

@@ -1,4 +1,3 @@
-import { Byte } from "@angular/compiler/src/util";
 import { pagination } from "../pagination";
 
 export class Usuario {
