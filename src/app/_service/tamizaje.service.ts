@@ -20,12 +20,24 @@ export class TamizajeService {
     column = (column==undefined)?'':column;
     let finicio = (fechaIni==undefined)?'':fechaIni.toDateString();
     let ffin = (fechaFin==undefined)?'':fechaFin.toDateString();
-    let secingreso = 0;
-    
+    let secingreso = (data==undefined)?'':data;
+
     let href = `${this.url}/GetAllTamizaje`;
-    let urls = `${href}?nroDocumento=${data}&secingreso=${secingreso}&fechaIni=${finicio}&fechaFin=${ffin}&page=${page+1}&pages=${pages}&column=${column}&order=${order}`;
+    let urls = `${href}?secingreso=${secingreso}&fechaIni=${finicio}&fechaFin=${ffin}&page=${page+1}&pages=${pages}&column=${column}&order=${order}`;
 
     return this.http.get<dataCollection>(urls);
+  }
+
+  eportar(data: string, fechaIni: Date, fechaFin: Date) {
+
+    let finicio = (fechaIni==undefined)?'':fechaIni.toDateString();
+    let ffin = (fechaFin==undefined)?'':fechaFin.toDateString();
+    let secingreso = (data==undefined)?'':data;
+
+    let href = `${this.url}/GetExportarTamizaje`;
+    let urls = `${href}?secingreso=${secingreso}&fechaIni=${finicio}&fechaFin=${ffin}`;
+
+    return this.http.get<string>(urls);
   }
 
 }

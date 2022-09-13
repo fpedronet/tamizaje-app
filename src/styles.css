@@ -27,6 +27,7 @@ div, body, span, a, h1, h2, h3, h4, h5, h6, input, textarea { margin: 0; font-fa
   --btn-bg-color7: #1367FF;
   --btn-bg-color8: #202121;
   --btn-bg-color9: #038387;
+  --btn-bg-color10: #109d2c;
 
   --text-bg-color1: #274359;
   --text-bg-color2: #d14c13;
@@ -100,6 +101,10 @@ div, body, span, a, h1, h2, h3, h4, h5, h6, input, textarea { margin: 0; font-fa
 
 .btnPdf{
   color: var(--btn-bg-color4);
+}
+
+.btnExcel{
+  color: var(--btn-bg-color10);
 }
 
 .btnnext{

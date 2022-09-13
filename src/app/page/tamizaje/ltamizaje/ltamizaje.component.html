@@ -1,16 +1,8 @@
 <mat-toolbar color="primary" class="example-toolbar submenu example-button">
     <div class="example-button-row">
-      <button mat-stroked-button class="btnHeader">
+      <button mat-stroked-button class="btnHeader" (click)="buscar()">
         <mat-icon class="maticonmenu">syncalt</mat-icon>
         <span class="maticontitle">Actualizar</span>
-      </button>
-      <button mat-stroked-button class="btnHeader">
-        <mat-icon class="maticonmenu">filter_alt</mat-icon>
-        <span class="maticontitle">Filtrar</span>
-      </button>
-      <button mat-stroked-button class="btnHeader" routerLink="/page/laboratorio/ordenes/create">
-        <mat-icon class="maticonmenu">add</mat-icon>
-        <span class="maticontitle">Nuevo</span>
       </button>
     </div>
   </mat-toolbar>
@@ -18,17 +10,54 @@
   <div class="container">  
     <mat-card class="cardborde">   
       <mat-toolbar class="cardtitle"></mat-toolbar>
-      <h2 class="title-label"> LISTADO DE ORDENES</h2>
+      <h2 class="title-label"> LISTADO DE TAMIZAJE</h2>
       <mat-divider></mat-divider>
-      <form style="padding: 0;">     
+      <form>     
         
+        <mat-grid-list cols="4" rowHeight="90px" gutterSize="15px" style="margin: 0 0 0 22px;">
+
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>MUESTRA SEC. INGRESO</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Búsqueda" #input>
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </mat-grid-tile>
+  
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha Inicio</mat-label>
+              <input matInput [matDatepicker]="fechaInicio" placeholder="dd/mm/yyyy" [max]="fechaInicio" 
+              [(ngModel)]="fechaSelectIni">
+              <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+              <mat-datepicker #fechaInicio></mat-datepicker>
+            </mat-form-field>
+          </mat-grid-tile>
+  
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha Fin</mat-label>
+              <input matInput [matDatepicker]="fechaFin" placeholder="dd/mm/yyyy" [max]="fechaFin" 
+              [(ngModel)]="fechaSelectFin">
+              <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+              <mat-datepicker #fechaFin></mat-datepicker>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+              <button mat-stroked-button class="btnBlue" (click)="buscar()"><mat-icon>search</mat-icon>Buscar</button>
+              <button mat-stroked-button class="btnExcel" (click)="exportar()" style="margin: 0 0 0 10px;"><mat-icon>file_download</mat-icon>Descargar</button>
+          </mat-grid-tile>
+  
+        </mat-grid-list>
+
         <div class="example-loading-shade" *ngIf="loading || existRegistro">
           <mat-spinner *ngIf="loading"></mat-spinner>
           <div class="example-rate-limit-reached" *ngIf="existRegistro">
             No se encontraron registros.
           </div>
         </div>
-  
+
         <div class="example-container mat-elevation-z0">
           <mat-table [dataSource]="dataSource" matSort>
            
@@ -63,11 +92,146 @@
               <mat-header-cell *matHeaderCellDef mat-sort-header> TELEONO </mat-header-cell>
               <mat-cell *matCellDef="let element" data-label="TELEONO"> {{element.pac_telefono}} </mat-cell>
             </ng-container> 
-
+  
             <ng-container matColumnDef="pac_celular">
               <mat-header-cell *matHeaderCellDef mat-sort-header> CELULAR </mat-header-cell>
               <mat-cell *matCellDef="let element" data-label="CELULAR"> {{element.pac_celular}} </mat-cell>
-            </ng-container> 
+            </ng-container>
+            
+            <ng-container matColumnDef="pac_direccion">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> DIRECCION </mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="DIRECCION"> {{element.pac_direccion}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_edad_gestacion">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> TIEMPO GESTACION </mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="TIEMPO GESTACION"> {{element.hpa_edad_gestacion}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="spac_fec_registro">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> FECHA REG. PACIENTE</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="FECHA REG. PACIENTE"> {{element.spac_fec_registro}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_ape_paterno">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> AP. PATERNO NIÑO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="AP. PATERNO NIÑO"> {{element.hpa_ape_paterno}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_ape_materno">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> AP. MATERNO NIÑO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="AP. MATERNO NIÑO"> {{element.hpa_ape_materno}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_nombres">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE NIÑO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="NOMBRE NIÑO"> {{element.hpa_nombres}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_fec_nacimiento">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> FECHA NACIMIENTO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="FECHA NACIMIENTO"> {{element.hpa_fec_nacimiento}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_hora_nacimiento">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> HORA NACIMIENTO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="HORA NACIMIENTO"> {{element.hpa_hora_nacimiento}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_genero">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> SEXO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="SEXO"> {{element.hpa_genero}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_prematuro">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> PREMATURO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="PREMATURO"> {{element.hpa_prematuro}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_transfundido">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> TRANSFUNDIDO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="TRANSFUNDIDO"> {{element.hpa_transfundido}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_peso">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> PESO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="PESO"> {{element.hpa_peso}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_talla">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> TALLA</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="TALLA"> {{element.hpa_talla}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="hpa_hor_lactancia">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> HORA LACTANCIA</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="HORA LACTANCIA"> {{element.hpa_hor_lactancia}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="shpa_fec_registro">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> FECHA REGISTRO NIÑO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="FECHA REGISTRO NIÑO"> {{element.shpa_fec_registro}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="mue_num_tarjeta">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> MUESTRA N° TARJETA</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="MUESTRA N° TARJETA"> {{element.mue_num_tarjeta}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="mue_num_muestra">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> MUESTRA N° MUESTRA</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="MUESTRA N° MUESTRA"> {{element.mue_num_muestra}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="mue_observaciones">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> MUESTRA OBSERVACIONES</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="MUESTRA OBSERVACIONES"> {{element.mue_observaciones}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="mue_sec_ingreso">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> MUESTRA SEC. INGRESO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="MUESTRA SEC. INGRESO"> {{element.mue_sec_ingreso}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="mue_redirigido">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> MUESTRA REDIRIGIDO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="MUESTRA REDIRIGIDO"> {{element.mue_redirigido}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="smue_fec_registro">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> FECHA REGISTRO MUESTRA</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="FECHA REGISTRO MUESTRA"> {{element.smue_fec_registro}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="mue_pruebas">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> PRUEBA TAMIZAJE</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="PRUEBA TAMIZAJE"> {{element.mue_pruebas}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="mue_control">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> PRUEBA CONTROL</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="PRUEBA CONTROL"> {{element.mue_control}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="rpe_resultado">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> RESULTADO</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="RESULTADO"> {{element.rpe_resultado}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="cen_nombre">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> PUESTO SALUD</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="PUESTO SALUD"> {{element.cen_nombre}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="zco_descripcion">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> ZONA CORP. DESCRIPCION</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="ZONA CORP. DESCRIPCION"> {{element.zco_descripcion}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="mue_usu_responsable">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> RESPONSABLE</mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="RESPONSABLE"> {{element.mue_usu_responsable}} </mat-cell>
+            </ng-container>
   
   
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -82,6 +246,7 @@
           </mat-paginator>
         </div>
   
-      </form>    
+      </form> 
+
     </mat-card>
   </div>

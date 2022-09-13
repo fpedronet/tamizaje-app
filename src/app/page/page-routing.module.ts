@@ -16,7 +16,7 @@ const routes: Routes = [
 
   /********* Como ejemplo *******/
 
-  {path:'tamizaje/ordenes', component: LtamizajeComponent, canActivate: [GuardService]},
+  {path:'tamizaje', component: LtamizajeComponent, canActivate: [GuardService]},
 
 ];
 

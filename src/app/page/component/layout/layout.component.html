@@ -11,7 +11,7 @@
 
     <a mat-button>      
       <img style="width: 41px;" src="{{logo}}"/>
-      <span style="padding-left:8px;font-size:15px;font-weight:600">Silac</span>
+      <span style="padding-left:8px;font-size:15px;font-weight:600">Tamizaje</span>
     </a>
 
     <span class="example-spacer"></span>
@@ -21,13 +21,7 @@
         <ul>
             <li *ngFor="let m of menus">
               <a *ngIf="m.url=='/page/home'" (click)="clearLocalStore()" routerLink="{{m.url}}" class="opcion">{{m.nombre}}</a>
-              <a *ngIf="m.url!='/page/home' && m.url!='/page/cerrar'" class="opcion">{{m.nombre}}</a>
-              <!-- <ul>
-                <li *ngFor="let s of m.listaSubMenu1">
-                  <a *ngIf="m.vUrl==''"  class="opcion">{{s.vPantalla}}</a>
-                  <a *ngIf="m.vUrl!=''" (click)="clearLocalStore()" routerLink="{{s.vUrl}}" class="opcion">{{s.vPantalla}}</a>
-                </li>
-              </ul> -->
+              <a *ngIf="m.url!='/page/home' && m.url!='/page/cerrar'" routerLink="{{m.url}}" class="opcion">{{m.nombre}}</a>
             </li>
         </ul>
       </nav>

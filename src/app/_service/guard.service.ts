@@ -41,7 +41,6 @@ export class GuardService implements CanActivate {
          this.router.navigate(['/page/inicio']);
          return false;
       }
-
       let lista = this.menuService.getListarMenu();
       let cont = 0;
 

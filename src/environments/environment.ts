@@ -8,7 +8,7 @@ export const environment = {
   // UrlApi:'https://service.poclab.pe/silac/api',  
   // UrlImage:'assets/',
 
-  //  UrlApi:'https://sitedev.poclab.pe/silacdev/api',  
+  //  UrlApi:'https://sitedev.poclab.pe/maternidaddev/api',  
   //  UrlImage:'assets/',
 
          UrlApi:'http://localhost:48394/api',
