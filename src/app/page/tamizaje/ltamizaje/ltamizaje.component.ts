@@ -55,7 +55,10 @@ export class LtamizajeComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
+        
           this.loading = true;
+          this.paginator.pageIndex = (this.data==null || this.data=='' || this.data==undefined)? this.paginator.pageIndex : 0;
+          
           return this.tamizajeService!.listar(
             this.data!,
             this.fechaSelectIni!,
